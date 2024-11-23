@@ -1,27 +1,5 @@
 import os
 import google.generativeai as genai
-from django.http import HttpResponse
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
-
-genai.configure(api_key="AIzaSyDofgXoi-rjZwQGl2uaFvOKTe6A1UUo_eo")
-
-generation_config = {
-  "temperature": 1,
-  "top_p": 0.95,
-  "top_k": 40,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
-}
-
-model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config,
-)
-
-import os
-import google.generativeai as genai
 
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
@@ -212,9 +190,6 @@ chat_session = model.start_chat(
   ]
 )
 
-response = chat_session.send_message("INSERT_INPUT_HERE")
-
-print(response.text)
 @csrf_exempt
 def chatbotResponse(request):
     if request.method == 'POST':
