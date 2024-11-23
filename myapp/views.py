@@ -20,104 +20,24 @@ model = genai.GenerativeModel(
   generation_config=generation_config,
 )
 
-chat_session = model.start_chat(
-  history=[
-    {
-      "role": "user",
-      "parts": [
-        "i am developing a chatbot foe helping public in local transport and travel during their journey to offices and school.....so they need info about starting stop and the destinations top and how they can reach the destination stop ....they need to know the info about the busses that take them to the destination stop...so the chatbot should provide info about the routes that they have to take the destination....their cost and intermediate buses to reach the destinantion...\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "Okay, here's a breakdown of how you can build a chatbot for local transport and travel information, focusing on school and office commutes:\n\n**1. Data Requirements:**\n\n* **Route Information:**\n    * **Bus Routes:** A comprehensive database of all bus routes in your area. Include:\n        * Route number\n        * Starting point (stop)\n        * Destination point (stop)\n        * Intermediate stops\n        * Fare (consider variable fares based on distance or time)\n        * Bus schedules (frequency, departure times)\n        * Possible connections between routes\n    * **Train Routes (If applicable):** Similar data as for bus routes.\n    * **Subway/Metro Routes (If applicable):** Similar data.\n* **Stop Locations:**\n    * **GPS Coordinates:**  Precise GPS coordinates for each bus/train/metro stop.\n    * **Street Address:**  For user convenience in entering starting and destination points.\n* **User Data (Optional):**\n    * **User Location:**  For personalized journey suggestions.\n    * **User Preferences:**  Allow users to save their favorite routes or stops for faster access.\n\n**2. Chatbot Platform and Tools:**\n\n* **Chatbot Platform:** \n    * **Dialogflow (Google):**  Offers natural language understanding, integration with Google Maps API, and a user-friendly interface for building conversations.\n    * **Rasa:**  An open-source chatbot framework with advanced capabilities, including Rasa X for interactive training.\n    * **Microsoft Bot Framework:**  Offers a range of tools for chatbot development, including a rich language understanding model.\n* **API Integration:**\n    * **Google Maps API:**  For calculating distances, travel times, and finding nearby stops. \n    * **Transit APIs:**  Consider using transit APIs (like Moovit, Transitland, or OpenTripPlanner) to access real-time data and schedule information, if possible. \n\n**3. Chatbot Logic:**\n\n* **User Input:**\n    * Design a simple, intuitive flow for users to provide:\n        * Starting Stop (e.g., \"Where are you starting from?\")\n        * Destination Stop (e.g., \"Where do you want to go?\")\n        * Optional: Time of travel (e.g., \"What time do you want to leave?\")\n* **Data Processing:**\n    * **Search Route Database:** Find matching routes that connect the starting and destination stops.\n    * **Time and Fare Calculations:** Determine the travel time and fare based on selected routes.\n    * **Intermediate Stop Recommendations:** Identify the relevant stops for transfer between routes.\n    * **Display Results:** Present the information clearly to the user:\n        * Route Options: List the available routes, including bus numbers.\n        * Departure Times: Show the expected departure times for each route.\n        * Fare:  Provide the estimated cost.\n        * Intermediate Stops: List any necessary stops for transfers.\n* **User Interaction:**\n    * **Conversation Flow:** Allow users to:\n        * Ask for more details about a specific route.\n        * Choose a preferred route.\n        * Get directions to the nearest bus stop. \n        * View real-time bus locations (if using live data). \n\n**4. Example Conversation:**\n\n**User:** I need to get to the ABC High School. I'm near the Central Park Bus Stop.\n\n**Chatbot:** Okay, I'm finding routes from Central Park Bus Stop to ABC High School. \n\n**Chatbot:** Here are your options:\n\n* **Route 15:**  Departs in 10 minutes, fare $2.50.  Stops at... (Intermediate stops).\n* **Route 28:**  Departs in 20 minutes, fare $3.00.  Stops at... (Intermediate stops).\n\n**User:** Which route is faster?\n\n**Chatbot:**  Route 15 is currently the faster option. Do you want to see the map for Route 15?\n\n**5. Considerations:**\n\n* **Real-Time Updates:**  Integrate real-time data (if available) for bus delays, cancellations, and schedule changes.\n* **Accessibility:**  Consider users with disabilities and ensure your information is accessible.\n* **Language Support:**  Provide options for different languages if needed.\n* **Error Handling:**  Design robust error handling to gracefully address incorrect input or unavailable information.\n\n**Development Tips:**\n\n* **Start with a Minimum Viable Product (MVP):** Begin with a basic version of your chatbot and gradually add more features and data.\n* **Use Mockups and Prototypes:** Visualize the chat flow and user interface before coding. \n* **User Testing:**  Get feedback from real users to identify areas for improvement. \n\nLet me know if you have any specific questions about the chatbot's functionality or need help with coding any part.  I'm here to assist you! \n",
-      ],
-    },
-    {
-      "role": "user",
-      "parts": [
-        "this has to be based on india and especially madurai and tamil nadu .....give infor about all the places and the what bus to take to reach the places and what is the cost for the bus etc\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "Okay, I understand. You want to build a chatbot specifically for Madurai and Tamil Nadu, providing bus travel information for local commuters. Here's a plan incorporating the local context:\n\n**1. Data Sources and Integration:**\n\n* **Tamil Nadu State Transport Corporation (TNSTC):**\n    * **Route Information:**  Acquire data on TNSTC bus routes within Madurai and Tamil Nadu. This includes:\n        * Route Numbers (e.g.,  Madurai - Tiruchendur, Madurai - Coimbatore)\n        * Starting and Ending Stops (e.g., MGR Bus Stand, Mattuthavani Bus Stand)\n        * Intermediate Stops\n        * Fares (Consider \"Ordinary\", \"Express\", and \"Deluxe\" types)\n        * Schedules (Frequency, Departure Times)\n    * **API Integration:** While official APIs might not exist, you can explore web scraping (with caution and ethical considerations) to extract data from TNSTC websites or apps.\n* **Private Bus Operators:**\n    * **Route Information:** Research major private bus operators that operate within Tamil Nadu. Get data on their routes, fares, and schedules.\n    * **Contacting Operators:** You may need to manually contact bus operators for route and fare information, as their data may not be publicly available.\n* **Public Transportation Apps:**\n    * **Moovit:**  A popular global transit app; it might provide some information on routes and bus availability in Madurai. Check if they have an API.\n    * **Other Local Apps:** Look for local transportation apps that might offer route and fare data for Madurai. \n\n**2. Chatbot Development:**\n\n* **Platform:**\n    * **Dialogflow:**  Is a good choice due to its ability to handle natural language, integrate with Google Maps API (for nearby stops), and connect to other services. \n* **Chatbot Logic:**\n    * **User Input:**\n        * Starting Point:  \"Where are you starting from?\" (User can enter bus stop name, area, landmark, etc.)\n        * Destination: \"Where do you want to go?\" (User can enter bus stop name, area, landmark)\n        * Optional: Time of travel (e.g., \"When do you want to leave?\") \n    * **Data Processing:**\n        * **Location Matching:** Match user-entered locations with the bus stop names in your database.  You might need to create a \"location matcher\" to handle synonyms and common names.\n        * **Route Searching:** Find routes that connect the starting and ending stops.\n        * **Fare Calculation:** Determine the fare based on the selected route and bus type (ordinary, express, deluxe).\n        * **Schedule Retrieval:**  Show departure times for the selected route. \n        * **Intermediate Stops:**  List any necessary stops for transfers between routes.\n    * **Output:**\n        * **Present options clearly to the user:**\n            * Route Options (Bus Number, Type)\n            * Departure Times \n            * Fares\n            * Intermediate Stops (if applicable)\n    * **User Interaction:** \n        * **Ask for more details:**  \"Do you want to see the schedule for a particular bus?\"\n        * **Direct to route maps:** \"Do you want to see the bus route on a map?\"\n        * **Handle unexpected input gracefully:**  \"I didn't understand that. Please try again.\"\n\n**3. Data Management:**\n\n* **Database:**  A database (like PostgreSQL or MySQL) to store:\n    * Bus Routes\n    * Bus Stops\n    * Fares\n    * Schedules\n    * Intermediate Stops\n* **Update Regularly:**  The transportation landscape changes. Implement procedures for updating your data regularly.\n\n**4. Language and Cultural Considerations:**\n\n* **Tamil Language Support:**  Ensure your chatbot can understand Tamil and respond in Tamil, as well as English.\n* **Local Context:**  Use terms and phrases common in Madurai and Tamil Nadu to enhance the user experience. \n\n**5. Example Conversation:**\n\n**User:**  \"Naan Madurai MGR Bus Stand la irunthu Tiruchendur Pokanum. Ena bus eduthu poganum?\" (I want to go from Madurai MGR Bus Stand to Tiruchendur. Which bus should I take?)\n\n**Chatbot:**  \"Tiruchendur ku poga, neenga MGR Bus Stand la irunthu TNSTC - 15, 17, or 18 bus eduthu pogalaam.  Ethanaikku fare ₹200 irunthukkum ₹250 irunthukkum.  Schedule-ah paarkalaama?\" (To go to Tiruchendur, you can take TNSTC buses 15, 17, or 18 from MGR Bus Stand. The fare is between ₹200 and ₹250. Do you want to see the schedule?)\n\n**6. Additional Features:**\n\n* **Live Bus Tracking:**  If you can access real-time data from TNSTC or bus tracking platforms, include live bus location updates.\n* **GPS-Based Recommendations:**  Use the user's location to suggest nearby bus stops.\n* **User Preferences:**  Let users save favorite routes or stops. \n\n**Important Note:**  Before building this chatbot, it's crucial to check the terms of service of TNSTC and other bus operators to ensure your data collection and use of their information complies with their guidelines.\n\nI hope this detailed plan helps you develop your chatbot for Madurai and Tamil Nadu! Let me know if you have any further questions. \n",
-      ],
-    },
-    {
-      "role": "user",
-      "parts": [
-        "if the user asks that he is in the particular location while travelling then the bot has to say your destinantion is 2 stops awasy and you have to stop ur travel at this stop etc...\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "That's a great feature to add!  Here's how you can implement the \"you're two stops away\" functionality:\n\n**1. Understanding the User's Current Location:**\n\n* **GPS Integration:**  If your chatbot has access to the user's location, you can use GPS coordinates to determine their current stop.\n* **User Input:** If you don't have GPS integration, you can ask the user:\n    * \"Where are you currently located?  Please tell me the bus stop name or landmark.\"\n\n**2. Stop Recognition and Calculation:**\n\n* **Matching User Location to Stops:** Compare the user's location (GPS coordinates or user input) with the coordinates or names of stops in your bus route database.\n* **Finding the Next Two Stops:**  \n    * If the user is on a bus, use the bus route data to find the next two stops after their current location.\n    * If the user is walking, you'll need additional logic to find the closest bus stop and then calculate the next two stops on the route.\n* **Calculating Distance:**  If you want to provide distance information (e.g., \"Your destination is 2 stops away, approximately 1 km\"), use Google Maps API to calculate the distance between the current stop and the destination stop. \n\n**3. Chatbot Response:**\n\n* **\"2 Stops Away\" Message:**\n    * \"You are currently at the [current stop name]. Your destination [destination stop name] is 2 stops away.  Get ready to alight at the [next stop name].\"\n* **\"You Have to Stop\" Message:**\n    * \"You are currently at the [current stop name]. Your destination [destination stop name] is reached. Please alight here.\"\n\n**4. Example Conversation:**\n\n**User:**  \"I'm on the bus going to Madurai Railway Station. I'm near the Periyar Bus Stand.\"\n\n**Chatbot:**  \"Okay, based on the bus route, you are currently at the Periyar Bus Stand. Madurai Railway Station is two stops away. You need to alight at the next stop, which is the [next stop name].  Good luck with your journey!\"\n\n**5. Considerations:**\n\n* **Accuracy:**  Ensure your stop location data is accurate to avoid misleading users.\n* **User Experience:**  Use clear and concise language in your responses to make it easy for users to understand.\n* **Real-Time Updates:**  Consider using real-time bus tracking data if available to improve the accuracy of stop announcements.\n\n**6. Code Example (Conceptual):**\n\n```python\nimport requests # For Google Maps API\nimport json \n\ndef get_next_two_stops(current_stop, destination_stop, route_data):\n    \"\"\" \n    Finds the next two stops on the bus route. \n    \"\"\"\n    # Find the current stop index in the route_data\n    current_stop_index = route_data.index(current_stop)\n\n    # Calculate the next two stops\n    next_stop = route_data[current_stop_index + 1]\n    second_next_stop = route_data[current_stop_index + 2]\n\n    return next_stop, second_next_stop\n\n\ndef get_distance_between_stops(stop1, stop2):\n    \"\"\"\n    Calculates the distance between two stops using Google Maps API.\n    \"\"\"\n    url = f\"https://maps.googleapis.com/maps/api/distancematrix/json?origins={stop1}&destinations={stop2}&key={YOUR_API_KEY}\"\n    response = requests.get(url)\n    data = json.loads(response.text)\n    distance = data['rows'][0]['elements'][0]['distance']['text']\n    return distance\n\n# ... Rest of your chatbot logic \n\n# Example usage:\nroute_data = ['Periyar Bus Stand', 'Mattuthavani', 'Madurai Railway Station']\ncurrent_stop = 'Periyar Bus Stand'\ndestination_stop = 'Madurai Railway Station'\n\nnext_stop, second_next_stop = get_next_two_stops(current_stop, destination_stop, route_data)\ndistance = get_distance_between_stops(current_stop, destination_stop) \n\n# Chatbot response:\nresponse = f\"You are currently at the {current_stop}. Your destination {destination_stop} is 2 stops away. You need to alight at the {next_stop}.  The distance is approximately {distance}.\"\n\nprint(response) \n```\n\nRemember to replace `\"YOUR_API_KEY\"` with your actual Google Maps API key.\n\nI hope this helps! Let me know if you have any more questions. \n",
-      ],
-    },
-    {
-      "role": "user",
-      "parts": [
-        "it should also tell the distance in kilometer use web scrapping or openstret map to do this task....\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "You're right!  Using web scraping or OpenStreetMaps is a great way to get distance information in kilometers.  Here's a breakdown of how you can implement this:\n\n**1. Choose a Method:**\n\n* **Web Scraping (with caution):**  You could scrape websites like Google Maps, Bing Maps, or local transportation websites.  \n    * **Pros:**  Potentially easier for simple distance calculations.\n    * **Cons:**  Can be unreliable if the website structure changes, and it's important to respect their terms of service. \n* **OpenStreetMap:** \n    * **Pros:**  Open-source, reliable, and has a well-defined API.\n    * **Cons:**  Might require more coding for distance calculations.\n\n**2. Implement Web Scraping (if choosing this method):**\n\n* **Library:** Use a web scraping library like `BeautifulSoup` in Python.\n* **Example (Conceptual):**\n\n```python\nfrom bs4 import BeautifulSoup\nimport requests\n\ndef get_distance_from_google_maps(start_location, end_location):\n    \"\"\"\n    Scrapes Google Maps for distance information (Conceptual Example).\n    \"\"\"\n    url = f\"https://www.google.com/maps/dir/{start_location}/{end_location}\"\n    response = requests.get(url)\n    soup = BeautifulSoup(response.text, 'html.parser')\n\n    # Find the distance element (you'll need to inspect the Google Maps HTML structure to find the correct element)\n    distance_element = soup.find(id='route-info')\n    distance = distance_element.text.split(\" \")[0] # Extract the number part\n\n    return distance\n\n# Example usage:\nstart_location = \"Periyar Bus Stand, Madurai\"\nend_location = \"Madurai Railway Station\"\ndistance = get_distance_from_google_maps(start_location, end_location)\n\nprint(f\"The distance is {distance} km.\")\n```\n\n**3. Implement OpenStreetMap:**\n\n* **OSM API:**  Use the OpenStreetMap API to get directions and distance information.\n* **Library:** Use a Python library like `requests` and `overpy` (for interacting with the API).\n* **Example (Conceptual):**\n\n```python\nimport requests\nimport overpy\n\ndef get_distance_from_osm(start_location, end_location):\n    \"\"\"\n    Calculates distance using OpenStreetMap API.\n    \"\"\"\n    api = overpy.Overpass()\n    result = api.query(f\"\"\"\n        [out:json];\n        route relation;\n        (node({start_location});\n         node({end_location}););\n        >;\n        out geom;\n    \"\"\")\n\n    # Process the response to extract the distance\n    # You'll need to parse the JSON output and find the relevant information \n    # (distance in meters)\n    distance_in_meters = result.get_distance()\n    distance_in_kilometers = distance_in_meters / 1000  # Convert to kilometers\n\n    return distance_in_kilometers\n\n# Example usage:\nstart_location = \"43.700122, -79.383227\"  # Example coordinates\nend_location = \"43.653226, -79.383227\" \n\ndistance = get_distance_from_osm(start_location, end_location)\n\nprint(f\"The distance is {distance} km.\") \n```\n\n**4. Integration with Chatbot:**\n\n* **Call the Distance Function:** In your chatbot's logic, call the `get_distance_from_google_maps` or `get_distance_from_osm` function (depending on your chosen method) after you've determined the current stop and destination stop.\n* **Display Distance:** Include the calculated distance in kilometers in your chatbot's response:\n    * \"You are currently at the [current stop name]. Your destination [destination stop name] is 2 stops away, approximately [distance] km. Get ready to alight at the [next stop name].\"\n\n**Important Considerations:**\n\n* **Accuracy:**  Web scraping and OpenStreetMap can provide approximate distances. Consider using more accurate location data or refining your algorithms if high accuracy is needed.\n* **API Limitations:**  Be aware of any rate limits or usage restrictions imposed by APIs like Google Maps or OpenStreetMap.\n* **Data Privacy:**  If you're using GPS data or location information, handle it responsibly and adhere to data privacy regulations.\n\nLet me know if you have any more questions! \n",
-      ],
-    },
-    {
-      "role": "user",
-      "parts": [
-        "it should give info about the type of busses like new bus and pink free bus for women etc\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "Right, you want to include information about the different types of buses in Madurai and Tamil Nadu, such as \"New Buses\" and the \"Pink Free Bus for Women.\"  Here's how you can integrate this information into your chatbot:\n\n**1. Categorize Bus Types in Your Database:**\n\n* **Create a \"Bus Type\" Column:** In your bus route database, add a column named \"Bus Type\".\n* **Populate with Types:** \n    * TNSTC \"New Buses\" (Often these are newer, air-conditioned buses)\n    * \"Pink Free Buses for Women\" \n    * \"Ordinary Buses\"\n    * \"Express Buses\"\n    * \"Deluxe Buses\" \n    * Any other specific types common in Madurai or Tamil Nadu \n\n**2. Enhance Your Chatbot Logic:**\n\n* **Retrieve Bus Type:** When searching for routes, retrieve the \"Bus Type\" associated with each route in your database.\n* **Display Bus Type Information:** In your chatbot response, clearly include the bus type:\n\n**Example:**\n\n**User:**  \"Naan Mattuthavani irunthu Melur Pokanum.  Yaar bus eduthu poganum?\" (I want to go from Mattuthavani to Melur. Which bus should I take?)\n\n**Chatbot:**  \"Melur ku poga, neenga Mattuthavani irunthu TNSTC 'New Bus' eduthu pogalaam.  Fare ₹50. Schedule paarkalaama?\"  (To go to Melur, you can take the TNSTC 'New Bus' from Mattuthavani. The fare is ₹50. Do you want to see the schedule?)\n\n**3. Considerations:**\n\n* **Data Availability:**  You might need to gather information on bus types from TNSTC websites, official announcements, or by contacting bus operators.\n* **Specifying Types:** Be as specific as possible with bus type descriptions. For example, \"New Buses\" may have subtypes like \"AC New Bus\" or \"Non-AC New Bus.\"\n* **Pink Free Bus Details:**  If you have specific information about the Pink Free Bus (e.g., operating hours, availability on certain routes, etc.), include this in your chatbot's response.\n\n**4. Additional Tips:**\n\n* **Dynamic Route Display:**  When displaying a list of routes, you can highlight the \"Bus Type\" column for easy visual recognition.\n* **Filtering by Type:**  Consider allowing users to filter routes by bus type (e.g., \"Show me only 'Pink Free Buses for Women'\"). \n* **Real-Time Information:**  If you can access live bus tracking data, try to include the type of bus in the real-time tracking information.\n\n**Example Code (Conceptual):**\n\n```python\ndef get_routes_by_type(start_stop, destination_stop, bus_type):\n    \"\"\"\n    Retrieves routes matching the specified bus type.\n    \"\"\"\n    routes = []\n    for route in database:  # Assuming your database is a list or dictionary\n        if route['Start Stop'] == start_stop and route['Destination Stop'] == destination_stop and route['Bus Type'] == bus_type:\n            routes.append(route)\n    return routes\n\n# Example usage in chatbot:\nbus_type = \"Pink Free Bus for Women\"  # User selects this type\nroutes = get_routes_by_type(start_stop, destination_stop, bus_type)\n\nif routes:\n    response = f\"You can take the '{bus_type}' from {start_stop} to {destination_stop}.  Here are the options:\" \n    # ... Display the routes with their details\nelse:\n    response = f\"There are no '{bus_type}' routes available for this journey.\"\n\nprint(response)\n```\n\nRemember to replace `\"database\"` with your actual database variable.\n\nI hope this helps you enhance your chatbot with bus type information! Let me know if you have any other questions. \n",
-      ],
-    },
-    {
-      "role": "user",
-      "parts": [
-        "you should tell the bus number of the bus to take if u are unaware of the bus number and other realtime data then u can say like these data will be updated soon....till then ill give the inof i know...ans ome phrases like that....use emojis for better expressiveness\n",
-      ],
-    },
-    {
-      "role": "model",
-      "parts": [
-        "Okay, I understand! You want your chatbot to be transparent about its data limitations and use emojis to make it more engaging.  Here's how you can do that:\n\n**1. Handling Unknown Bus Numbers:**\n\n* **Search by Stop Names:**  If the chatbot doesn't know the exact bus number, it can still search by start and end stops.\n* **Provide Route Information:**  Display the route information you do know (e.g., \"TNSTC bus, Express, fare ₹XX, departs every 30 minutes\"). \n* **\"Data Updating\" Message:**  If the bus number is unavailable or outdated, use phrases like:\n    * \"🚌 I'm still learning about all the bus routes! This information will be updated soon. 🤔\"\n    * \"This bus number isn't in my system yet, but I'm working on getting all the latest updates! 😊\"\n* **\"Information I Know\" Message:**\n    * \"I don't have the exact bus number, but here's what I know about this route...  🚀\"\n\n**2. Real-Time Data Handling:**\n\n* **\"Real-Time Data Coming Soon\" Message:**  If your chatbot doesn't have real-time bus tracking, be honest with users:\n    * \"I don't have real-time updates on bus locations just yet.  ⚡ But I'm working on it! 👍\"\n    * \"For live bus tracking, check the TNSTC website or app.  🚌\"\n* **\"Data Limitations\" Message:**\n    * \"I'm still getting the hang of this. 😉  For the most up-to-date information, check [link to TNSTC website/app].\"\n\n**3. Using Emojis:**\n\n* **Emphasize Uncertainty:** Use emojis like 🤔 (thinking face), 🤷‍♀️ (shrugging woman) to show that you're still learning.\n* **Show Enthusiasm:** Use emojis like 🤩 (star-struck) or 🚀 (rocket) to express excitement about future improvements.\n* **Add Relevance:** Use emojis like 🚌 (bus) or 📍 (pin) to relate to the context of the conversation. \n\n**4. Example Conversation:**\n\n**User:** \"Naan Thiagarajar College irunthu Madurai Railway Station ku poganum. Enna bus eduthu poganum?\" (I want to go from Thiagarajar College to Madurai Railway Station. Which bus should I take?)\n\n**Chatbot:**  \"🚌 Thiagarajar College irunthu Railway Station ku poga, TNSTC 'Express' bus eduthu pogalaam. 🤔 Enna bus number nu enakkup theriyala.  Enakkup innum enna therinju  'Express' bus fare ₹25 irunthukkum ₹30 irunthukkum.  This information will be updated soon. 🤩\" (To go from Thiagarajar College to Railway Station, you can take the TNSTC 'Express' bus. 🤔 I don't know the exact bus number yet. What I know is the fare is ₹25 to ₹30 for the 'Express' bus. This information will be updated soon. 🤩)\n\n**5. Additional Tips:**\n\n* **Personalize Responses:** Use language that feels natural and conversational, as if you were speaking to a person.\n* **Maintain Transparency:**  Be upfront about your data limitations; users will appreciate it.\n* **Focus on User Experience:**  Even if you don't have all the data, be helpful and provide any relevant information you can.\n\nI hope these tips help you make your chatbot more engaging and transparent with users! \n",
-      ],
-    },
-  ]
+import os
+import google.generativeai as genai
+
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+
+# Create the model
+generation_config = {
+  "temperature": 1,
+  "top_p": 0.95,
+  "top_k": 40,
+  "max_output_tokens": 8192,
+  "response_mime_type": "text/plain",
+}
+
+model = genai.GenerativeModel(
+  model_name="gemini-1.5-flash",
+  generation_config=generation_config,
 )
-
-@csrf_exempt
-def chatbotResponse(request):
-    if request.method == 'POST':
-        try:
-            # Parse the incoming request body as JSON
-            body = json.loads(request.body.decode('utf-8'))
-            input_text = body.get('message')
-
-            if not input_text:
-                return JsonResponse({'error': 'input_text is required'}, status=400)
-
-            response = chat_session.send_message(input_text)
-            
-            return JsonResponse({'response_text': response.text})
-        
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    
-    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 chat_session = model.start_chat(
   history=[
@@ -193,8 +113,129 @@ chat_session = model.start_chat(
         "You're right, we want to strike a balance—informative, yet not overly expressive or short. Here are some refined examples, keeping the information clear and concise while maintaining a friendly tone:\n\n**General Information**\n\n**Question:** What is doping? 🤔 \n\n**Answer:** Doping refers to using banned substances or methods to enhance athletic performance. This goes against the spirit of fair play and can be seriously harmful to your health. \n\n**Question:** Why is doping bad? 😠 \n\n**Answer:** Doping is harmful because it's unfair to other athletes competing honestly. It also carries significant health risks, like heart problems and liver damage.  Plus, doping can ruin an athlete's reputation and damage the integrity of their sport.\n\n**Prohibited Substances & Methods**\n\n**Question:** What are some common anabolic steroids? 💪 \n\n**Answer:** Anabolic steroids are drugs used to increase muscle mass and strength.  Examples include testosterone, nandrolone, and stanozolol. They are banned due to their serious side effects, including liver damage, aggression, and acne.  Building muscle should be done through hard work and a healthy lifestyle, not dangerous drugs.\n\n**Question:** Is it okay to take caffeine? ☕\n\n**Answer:** Caffeine is a stimulant allowed in sports, but there are limits. WADA sets a specific caffeine limit for competition.  Exceeding that limit can lead to a doping violation. It's important to stay within the guidelines to ensure fair competition.\n\n**Question:** What about protein supplements? 🥛\n\n**Answer:** Protein supplements are generally safe, but it's crucial to check the ingredients. Some may contain banned substances. Always check the label and consult with a doctor or sports nutritionist to ensure you're using safe and legal supplements.\n\n**Consequences**\n\n**Question:**  What happens if I get caught doping? 👮‍♀️\n\n**Answer:** Doping violations can have serious consequences. You could be suspended from competition, fined, or even banned for life. Doping can also damage your reputation and negatively impact your athletic career. It's best to always compete fairly and adhere to the rules.\n\n**Question:** Is there a way to get a TUE? 🏥\n\n**Answer:** A Therapeutic Use Exemption (TUE) allows athletes to use a prohibited substance for legitimate medical reasons. If your doctor has prescribed a medication that is on the banned list, you can apply for a TUE through your National Anti-Doping Organization (NADO). It's a complex process, so be sure to contact your NADO for guidance. \n\n**Other Common Questions**\n\n**Question:**  I have a prescription for medication. How do I know if it's allowed in sport? 💊\n\n**Answer:** It's essential to check with your National Anti-Doping Organization or a sports physician. Sometimes medications that are legal for everyday use are banned in sports. It's always good to be informed about the regulations.\n\n**Question:** Where can I find more information about doping? 🌐\n\n**Answer:** The World Anti-Doping Agency (WADA) website is a great resource for information on doping. You can also contact your national anti-doping organization for specific guidance related to your sport and country.\n\n**Handling Out-of-Context Questions**\n\n**Question:**  What is the weather forecast for tomorrow? 🌧️\n\n**Answer:** I'm designed to provide information about doping in sports. For weather information, you can check a weather app or website.  \n\n**General Tips:**\n\n* **Conciseness:** Keep explanations clear and concise, avoiding overly complex language.\n* **Factual Focus:**  Stick to facts and avoid opinions or personal judgments.\n* **Positivity:**  Maintain a friendly and supportive tone, but avoid overly expressive language.  \n* **Use Emojis Sparingly:** Emojis can be helpful, but use them sparingly and thoughtfully to enhance clarity, not replace information.\n\nBy balancing conciseness, clarity, and a friendly tone, your chatbot can effectively provide valuable information about doping in sports. \n",
       ],
     },
+    {
+      "role": "user",
+      "parts": [
+        "Give me the strongly related answes only and try to short the answers if possible ",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, here are concise and strongly related answers, focusing on providing essential information without being overly wordy:\n\n**General Information**\n\n**Question:** What is doping? 🤔 \n\n**Answer:** Doping is using banned substances or methods to improve athletic performance. It's against the rules and can harm your health.\n\n**Question:** Why is doping bad? 😠 \n\n**Answer:** Doping is unfair, harmful to your health, and damages the reputation of athletes and sports. \n\n**Prohibited Substances & Methods**\n\n**Question:** What are some common anabolic steroids? 💪 \n\n**Answer:** Anabolic steroids like testosterone are banned because they increase muscle mass and have dangerous side effects.\n\n**Question:** Is it okay to take caffeine? ☕\n\n**Answer:** Caffeine is allowed in sports, but there are limits.  Exceeding those limits can be a doping violation. \n\n**Question:** What about protein supplements? 🥛\n\n**Answer:** Protein supplements are generally safe, but check the ingredients. Some contain banned substances.\n\n**Consequences**\n\n**Question:**  What happens if I get caught doping? 👮‍♀️\n\n**Answer:**  You could face suspension, fines, or even a lifetime ban. It can also ruin your reputation and career. \n\n**Question:** Is there a way to get a TUE? 🏥\n\n**Answer:** A Therapeutic Use Exemption (TUE) lets you use a banned substance for medical reasons. Contact your National Anti-Doping Organization (NADO).\n\n**Other Common Questions**\n\n**Question:**  I have a prescription for medication. How do I know if it's allowed in sport? 💊\n\n**Answer:**  Always check with your NADO or a sports physician. Sometimes, legal medications are banned in sports. \n\n**Question:** Where can I find more information about doping? 🌐\n\n**Answer:** Check the World Anti-Doping Agency (WADA) website or your national anti-doping organization. \n\n**Handling Out-of-Context Questions**\n\n**Question:**  What is the weather forecast for tomorrow? 🌧️\n\n**Answer:** I'm designed to provide information about doping in sports. For weather information, check a weather app or website. \n\n**Remember:**\n\n* **Concise and Clear:**  Prioritize clear and concise explanations. \n* **Factual:**  Focus on providing factual information and avoid opinions.\n* **Direct:**  Provide direct answers to the user's questions.\n* **Relevant:**  Ensure the answers are directly related to the user's questions. \n\nI hope this helps! \n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "The anthlete should feel comfortable to ask the queries the chatbot should never make them uncomfortable with the replies",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "You're absolutely right! It's crucial that the chatbot makes athletes feel comfortable asking questions about doping.  We need to ensure the tone is non-judgmental, supportive, and understanding.  Here's how to adjust the responses to achieve that:\n\n**General Information**\n\n**Question:** What is doping? 🤔 \n\n**Answer:**  Doping means using banned substances or methods to improve athletic performance.  It's against the rules and can be harmful to your health.  We all want a fair playing field, right? \n\n**Question:** Why is doping bad? 😠 \n\n**Answer:**  Doping is unfair to athletes who compete honestly, and it can be very dangerous.  It can also damage an athlete's reputation and the sport itself.  I know it can be confusing, so I'm here to help you understand. \n\n**Prohibited Substances & Methods**\n\n**Question:** What are some common anabolic steroids? 💪 \n\n**Answer:** Anabolic steroids like testosterone are banned because they increase muscle mass very quickly, and they can have really serious side effects. It's important to build muscle safely through hard work and a healthy lifestyle.\n\n**Question:** Is it okay to take caffeine? ☕\n\n**Answer:**  Caffeine is allowed in sports, but there are limits on how much you can have during competition.  Exceeding those limits can be a doping violation.  It's good to be aware of the rules so you can compete fairly.  \n\n**Question:** What about protein supplements? 🥛\n\n**Answer:** Protein supplements are generally safe, but you should always check the ingredients.  Some contain banned substances. It's good to be cautious and talk to a doctor or sports nutritionist about what's best for you.\n\n**Consequences**\n\n**Question:**  What happens if I get caught doping? 👮‍♀️\n\n**Answer:**  Doping violations can have serious consequences, including suspension, fines, and even a lifetime ban.  It's also important to remember that doping can really hurt your reputation and make it hard to continue your athletic career.  It's always best to play by the rules!\n\n**Question:** Is there a way to get a TUE? 🏥\n\n**Answer:** A Therapeutic Use Exemption (TUE) allows you to use a banned substance for legitimate medical reasons.  If you're prescribed a medication that's on the banned list, you can apply for a TUE through your National Anti-Doping Organization (NADO).  It's good to know that there are options if you have a medical need for a banned substance. \n\n**Other Common Questions**\n\n**Question:**  I have a prescription for medication. How do I know if it's allowed in sport? 💊\n\n**Answer:**  It's a great question! It's always best to check with your National Anti-Doping Organization or a sports physician. Sometimes, medications that are legal for everyday use are banned in sports.  I'm here to help you find that information. \n\n**Question:** Where can I find more information about doping? 🌐\n\n**Answer:** The World Anti-Doping Agency (WADA) website and your national anti-doping organization have a lot of information about doping. It's good to be informed about the rules!\n\n**Handling Out-of-Context Questions**\n\n**Question:**  What is the weather forecast for tomorrow? 🌧️\n\n**Answer:** I'm designed to answer questions about doping in sports. To check the weather, you can look at a weather app or website.   \n\n**Key Points to Remember:**\n\n* **Non-Judgmental:**  Avoid language that could make athletes feel judged or ashamed.\n* **Supportive:**  Let them know that it's okay to ask questions.\n* **Accessible:**  Use clear and simple language that everyone can understand.\n* **Empathetic:**  Show that you understand their concerns.\n* **Reassuring:**  Reassure them that you are there to help.\n\n**Additional Tips:**\n\n* **Use \"You\" language:**  Speak directly to the athlete.\n* **Acknowledge their feelings:**  Let them know you understand why they might be concerned.\n* **Offer solutions:**  Provide resources and information to help them make informed decisions.\n\nBy following these tips, you can make your chatbot a valuable resource for athletes, helping them stay informed about doping and make safe and ethical choices. \n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "If the athletes ask where they find the further details about the prohibited drugs the chatbot should tell them to visit WADA and also our application has also has many features to aware the athletes about doping and its side effects. For that we are providing games like scrambled words, hangman...",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, here’s a response that directs athletes to the WADA website and highlights your application's",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "Tell me about our application ",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, I need a bit more information about your application to give you a good description.  Tell me:\n\n* **What is the name of your application?**  This will help make the description more specific and engaging.\n* **What are the main features of your application?**  Beyond the games, what other features does it offer?  \n* **Who is your target audience?**  Is it geared towards all athletes, or a specific sport or age group?\n* **What is the purpose of your application?** What do you want athletes to gain from using it?  \n\nOnce you provide me with these details, I can write a description of your application that is informative, engaging, and appealing to athletes. \n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "Our application name is 'fair play' the main features of our application are scanning for the presence of doping components of it present in their medicationa, and provide infographic a and a discussion forum and a chatbot assistant ",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, here is a description of your application \"Fair Play\" that highlights its key features: \n\n**Fair Play: Your Guide to a Level Playing Field**\n\nFair Play is a comprehensive app designed to empower athletes of all levels with the knowledge and tools they need to stay informed and compete ethically.  We're here to help you understand doping, avoid accidental violations, and play by the rules!  \n\n**Here's what you'll find in Fair Play:**\n\n* **Medication Scanner:**  Worried about your medication? Fair Play's  medication scanner helps you quickly determine if your prescribed medicines contain any banned substances. \n* **Informative Infographics:**  Learn about the different types of doping, their side effects, and the dangers of using banned substances. Our infographics make it easy to understand complex topics. \n* **Discussion Forum:**  Connect with other athletes, coaches, and sports professionals in our safe and moderated forum. Ask questions, share experiences, and get valuable insights. \n* **Chatbot Assistant:**  Have a question about doping?  Our chatbot assistant is available 24/7 to provide answers, guidance, and resources. \n\n**Fair Play is committed to promoting fair play and protecting the health of athletes.  Join us on the journey to a level playing field!**\n\n**Additional Tips for Your Description:**\n\n* **Use Visuals:**  Include screenshots of your app, infographics, or other visuals to make your description more engaging.\n* **Highlight Your Unique Features:** What makes Fair Play stand out from other apps?  \n* **Target Your Audience:**  If your app is specifically for a particular sport, mention that in the description.\n* **Call to Action:**  Tell people what to do next, like \"Download Fair Play today!\" or \"Visit our website for more information.\"\n\nGood luck with your app! \n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "hi",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Hi there! 👋  How can I help you today? 😊  I'm ready to answer any questions you have about doping in sports. \n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "the output should be brief not more than 5 to 10 lines and it should add emoji with the replies and the reply should make the user that they are taliking to the human\n",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, here are some examples of brief chatbot responses designed to feel more human and less robotic, while incorporating emojis and staying under ten lines:\n\n**Scenario 1:  Athlete asks about a specific substance.**\n\n**User:** Is Gestrinone allowed?\n\n**Chatbot:** Hey there!  Nope, Gestrinone is a big no-no.  It's banned because it boosts performance but is risky.  ⛔  You can find more info on the WADA website.  They're the experts! 🤓  Anything else I can help with?\n\n\n**Scenario 2: Athlete asks about general doping information.**\n\n**User:** What's doping?\n\n**Chatbot:** Hi!  Doping is using banned substances or methods to cheat and get an unfair edge.  It's against the rules and can be really dangerous for your health. 😔 We want everyone to play fair.  Let me know if you have any other questions. 😊\n\n**Scenario 3: Athlete asks about resources.**\n\n**User:** Where can I learn more?\n\n**Chatbot:**  Hi!  The WADA website is packed with info. 👍  Plus, our Fair Play app has games and a forum too! 🎮 It's a great way to learn more.  Is there anything else you need?\n\n\n**Scenario 4: Athlete asks a question outside the scope.**\n\n**User:** What's the weather like today?\n\n**Chatbot:** Hi! I'm focused on doping in sports.  For the weather, try a weather app. ☀️  Anything else I can help you with?\n\n\n**Key improvements for a more human-like interaction:**\n\n* **Personal Greetings:** Start with a friendly greeting like \"Hi!\" or \"Hey there!\"\n* **Casual Language:** Avoid overly formal language.\n* **Empathy:** Show understanding and support.\n* **Follow-up Questions:** Encourage further interaction.\n* **Emojis:** Use sparingly, but strategically to convey emotion and make the response more visually appealing.\n* **Avoid robotic language:** Don't use phrases like \"I am an AI chatbot...\"  Let the user assume they are talking to a human unless the situation requires otherwise.\n\n\nRemember to maintain a balance between brevity and providing sufficient information.  The goal is to be helpful and approachable, so athletes will feel comfortable asking questions.\n",
+      ],
+    },
+    {
+      "role": "user",
+      "parts": [
+        "the greetings should be present only on the first convo it should not be repeated in every replies\n",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, I understand. Here are examples of brief chatbot responses that only include greetings in the initial conversation, while maintaining a helpful and friendly tone with emojis:\n\n**First Conversation:**\n\n**User:** Hi, what is doping?\n\n**Chatbot:** Hi there! 👋 Doping means using banned substances or methods to boost performance. It's against the rules and can be risky.  Anything else?\n\n\n**Subsequent Conversations (No Greeting):**\n\n**User:**  Is caffeine allowed?\n\n**Chatbot:**  Caffeine has limits.  Check WADA guidelines!  ☕ Too much can be a violation.\n\n\n**User:** What about creatine?\n\n**Chatbot:** Creatine is generally okay, but always check the label carefully.  Some supplements have hidden banned substances.  🧐\n\n\n**User:** What happens if I get caught?\n\n**Chatbot:**  Serious consequences! Penalties range from fines to lifetime bans.  Your reputation could also be affected.  🙁\n\n\n**User:** Where can I learn more?\n\n**Chatbot:** Check the WADA website and our Fair Play app!  We have games and a forum to help you learn more. 📚\n\n\n**User:** What's the weather?\n\n**Chatbot:**  I'm focused on doping information.  Try a weather app instead. ☀️\n\n\n**Key Improvements:**\n\n* **Concise:**  Responses are kept brief and to the point.\n* **Informative:**  Essential information is provided.\n* **Friendly:**  A supportive and understanding tone is maintained.\n* **Emojis:**  Emojis are used sparingly, adding a touch of personality.\n* **No Repeated Greetings:**  Greetings are only used in the first response of the conversation.\n* **User-Focused:** The responses are focused on the user's needs and questions.\n\n\nThis approach creates a more natural and engaging conversation flow, improving the user experience without being overly wordy.  Remember to keep the responses factual and to always direct users to WADA for the most up-to-date information.\n",
+      ],
+    },
   ]
 )
+
+response = chat_session.send_message("INSERT_INPUT_HERE")
+
+print(response.text)
+@csrf_exempt
+def chatbotResponse(request):
+    if request.method == 'POST':
+        try:
+            # Parse the incoming request body as JSON
+            body = json.loads(request.body.decode('utf-8'))
+            input_text = body.get('message')
+
+            if not input_text:
+                return JsonResponse({'error': 'input_text is required'}, status=400)
+
+            response = chat_session.send_message(input_text)
+            
+            return JsonResponse({'response_text': response.text})
+        
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 def convert_to_json(response_str):
