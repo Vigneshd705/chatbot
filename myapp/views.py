@@ -1,9 +1,12 @@
 import os
 import google.generativeai as genai
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+genai.configure(api_key="AIzaSyDofgXoi-rjZwQGl2uaFvOKTe6A1UUo_eo")
 
-# Create the model
 generation_config = {
   "temperature": 1,
   "top_p": 0.95,
@@ -187,8 +190,21 @@ chat_session = model.start_chat(
         "Okay, I understand. Here are examples of brief chatbot responses that only include greetings in the initial conversation, while maintaining a helpful and friendly tone with emojis:\n\n**First Conversation:**\n\n**User:** Hi, what is doping?\n\n**Chatbot:** Hi there! 👋 Doping means using banned substances or methods to boost performance. It's against the rules and can be risky.  Anything else?\n\n\n**Subsequent Conversations (No Greeting):**\n\n**User:**  Is caffeine allowed?\n\n**Chatbot:**  Caffeine has limits.  Check WADA guidelines!  ☕ Too much can be a violation.\n\n\n**User:** What about creatine?\n\n**Chatbot:** Creatine is generally okay, but always check the label carefully.  Some supplements have hidden banned substances.  🧐\n\n\n**User:** What happens if I get caught?\n\n**Chatbot:**  Serious consequences! Penalties range from fines to lifetime bans.  Your reputation could also be affected.  🙁\n\n\n**User:** Where can I learn more?\n\n**Chatbot:** Check the WADA website and our Fair Play app!  We have games and a forum to help you learn more. 📚\n\n\n**User:** What's the weather?\n\n**Chatbot:**  I'm focused on doping information.  Try a weather app instead. ☀️\n\n\n**Key Improvements:**\n\n* **Concise:**  Responses are kept brief and to the point.\n* **Informative:**  Essential information is provided.\n* **Friendly:**  A supportive and understanding tone is maintained.\n* **Emojis:**  Emojis are used sparingly, adding a touch of personality.\n* **No Repeated Greetings:**  Greetings are only used in the first response of the conversation.\n* **User-Focused:** The responses are focused on the user's needs and questions.\n\n\nThis approach creates a more natural and engaging conversation flow, improving the user experience without being overly wordy.  Remember to keep the responses factual and to always direct users to WADA for the most up-to-date information.\n",
       ],
     },
+    {
+      "role": "user",
+      "parts": [
+        "for the greeting messages given by the user it should tell greeting and asks how i can help you. i can answer for doping related queries fee free to ask like that it should reply",
+      ],
+    },
+    {
+      "role": "model",
+      "parts": [
+        "Okay, here's how you can structure the chatbot's response to a user's greeting, followed by examples of subsequent responses:\n\n\n**Initial Greeting Response:**\n\n**User:** Hi, hello, Hey, Greetings, etc.\n\n**Chatbot:** Hi there! 👋 How can I help you? I can answer your questions about doping in sports. Feel free to ask anything!\n\n\n**Subsequent Responses (No Greeting):**\n\nHere are examples of responses *after* the initial greeting:\n\n* **User:** What is doping?\n* **Chatbot:** Doping is using banned substances or methods to boost athletic performance. It's against the rules and can be harmful.\n\n* **User:** Is caffeine allowed?\n* **Chatbot:** Caffeine is allowed, but there are limits. Check WADA guidelines!  ☕\n\n* **User:**  What are the consequences of getting caught?\n* **Chatbot:**  Penalties vary, but they can include bans, fines, and damage to your reputation.  🙁\n\n* **User:** Where can I learn more?\n* **Chatbot:** Check the WADA website and our Fair Play app! 📚 We have many resources to help.\n\n* **User:** What's the weather like today?\n* **Chatbot:** I focus on doping information.  Try a weather app or website.\n\n\n**Key improvements:**\n\n* **Clear Greeting Response:** The initial response clearly greets the user and states the chatbot's purpose.\n* **No Repeated Greetings:**  Subsequent responses omit greetings for a natural flow.\n* **Concise and Helpful:**  Answers remain brief while providing relevant information.\n* **Friendly Tone:**  Maintains a supportive and understanding tone.\n* **Emojis:** Emojis are used sparingly, enhancing the visual appeal.\n* **Focus on User Needs:** Responses address the user's specific questions.\n\nThis approach combines a welcoming initial response with efficient and helpful subsequent interactions, creating a positive user experience while staying on topic.  Remember to always direct users to WADA for comprehensive, up-to-date information.\n",
+      ],
+    },
   ]
 )
+
 
 @csrf_exempt
 def chatbotResponse(request):
