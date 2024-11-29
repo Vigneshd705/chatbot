@@ -5,7 +5,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-genai.configure(api_key="AIzaSyDofgXoi-rjZwQGl2uaFvOKTe6A1UUo_eo")
+# genai.configure(api_key="AIzaSyDofgXoi-rjZwQGl2uaFvOKTe6A1UUo_eo")
+ genai.configure(api_key="AIzaSyBOlAvcqOF9GlcKfAa3KhoiCutysiictmc")
 
 
 # Create the model
